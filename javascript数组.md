@@ -182,4 +182,183 @@ alert(numbers) // -4,-3,-2,-1,0,a,b,c,4,5,6,7,8,9,10,11,12,13
 | some | 对数组中的每一项运行给定函数，如果任一项返回 true，则结果为true, 并且迭代结束 |
 | sort | 按照字母顺序对数组排序，支持传入指定排序方法的函数作为参数 |
 | toString | 将数组作为字符串返回 |
-| valueOf | 和 toString类似，将数组作为字符串返回 |	
+| valueOf | 和 toString类似，将数组作为字符串返回 |
+
+### 数组合并
+
++ 数组的合并非常简单，使用concat即可(也可以直接+进行合并)
+
+``` javascript
+//	数组的合并
+var nums1 = [1, 2, 3]
+var nums2 = [100, 200, 300]
+var newNums = nums1.concat(num2)
+alert(newNums)	//	1, 2, 3, 100, 200, 300
+newNums = nums1 + nums2
+alert(newNums)	//	1, 2, 3, 100, 200, 300
+```
+
+### 迭代方法
+
+#### every()方法
+
++ every()方法是将数组中每一个元素传入到一个函数中，该函数返回true/false.
++ 如果函数中每一个元素都返回true，那么结果为true，有一个为false，那么结果为false
+
+练习：判断一组元素中是否都包含某一个字符
+
+``` javascript
+// 定义数组
+var names = ["abc", "cb", "mba", "dna"]
+
+// 判断数组的元素是否都包含a字符
+var flag = names.every(function (t) {
+    return t.indexOf('a') != -1
+})
+alert(flag)
+```
+
+#### some()方法
+
++ some()方法是将数组中每一个元素传入到一个函数中, 该函数返回true/false
++ 但是和every不同的是, 一旦有一次函数返回了true, 那么迭代就会结束. 并且结果为true
+
+练习：
+
+``` javascript
+// 定义数组
+var names = ["abc", "cb", "mba", "dna"]
+
+// 判断数组中是否包含有a字符的字符
+var flag = names.some(function (t) {
+    alert(t)
+    return t.indexOf("a") != -1
+})
+alert(flag)
+```
+
+#### forEach()方法
+
++ forEach()方法仅仅是一种快速迭代数组的方式而已.
++ 该方法不需要返回值
+
+forEach的使用
+
+``` javascript
+// 定义数组
+var names = ["abc", "cb", "mba", "dna"]
+// forEach的使用
+names.forEach(function (t) {
+    alert(t)
+})
+```
+
+#### filter()方法
+
++ filter()方法是一种过滤的函数
++ 首先会遍历数组中每一个元素传入到函数中
++ 函数的结果返回true, 那么这个元素会被添加到最新的数组中, 返回false, 则忽略该元素.
++ 最终会形成一个新的数组, 该数组就是filter()方法的返回值
+
+filter()的练习
+
+``` javascript
+// 定义数组
+var names = ["abc", "cb", "mba", "dna"]
+
+// 获取names中所有包含'a'字符的元素
+var newNames = names.filter(function (t) {
+    return t.indexOf("a") != -1
+})
+alert(newNames)
+```
+
+#### map()方法
+
++ map()方法提供的是一种映射函数.
++ 首先会遍历数组中每一个元素传入到函数中.
++ 元素会经过函数中的指令进行各种变换, 生成新的元素, 并且将新的元素返回.
++ 最终会将返回的所有元素形成一个新的数组, 该数组就是map()方法的返回值
+
+map()练习:
+
+``` javascript
+//	定义数组
+var names = ["abc", "cb", "mba", "dna"]
+//	在names中所有的元素后面拼接-abc
+var newNames = names.map(function(t) {
+	return t + "-abc"
+})
+alert(newNames)
+```
+
+## reduce方法
+
+这个方法需要的参数
+
+``` javascript
+arr.reduce(callback[, initialValue])
+```
+
+### 参数
+
++ callback（一个在数组中每一项上调用的函数，接受四个函数：）
+	+ previousValue（上一次调用回调函数时的返回值，或者初始值）
+	+ currentValue（当前正在处理的数组元素）
+	+ currentIndex（当前正在处理的数组元素下标）
+	+ array（调用reduce()方法的数组）
++ initialValue（可选的初始值。作为第一次调用回调函数时传给previousValue的值）
+
+例子:求一个数字中数字的累加和
+
++ 使用for实现:
+
+``` javascript
+// 1.定义数组
+var numbers = [1, 2, 3, 4]
+
+// 2.for实现累加
+var total = 0
+for (var i = 0; i < numbers.length; i++) {
+    total += numbers[i]
+}
+alert(total) // 10
+```
+
++ 使用forEach简化for循环
+
+	+ 相对于for循环, forEach更符合我们的思维(遍历数组中的元素)
+
+``` javascript
+// 3.使用forEach
+var total = 0
+numbers.forEach(function (t) {
+    total += t
+})
+alert(total)
+```
+
++ 使用reduce方法实现
+
+``` javascript
+// 4.使用reduce方法
+var total = numbers.reduce(function (pre, cur) {
+    return pre + cur
+})
+alert(total)
+```
+
+	+ 代码解析
+
+		+ pre中每次传入的参数是不固定的, 而是上次执行函数时的结果保存在了pre中
+    + 第一次执行时, pre为0, cur为1
+    + 第二次执行时, pre为1 (0+1, 上次函数执行的结果), cur为2
+    + 第三次执行时, pre为3 (1+2, 上次函数执行的结果), cur为3
+    + 第四次执行时, pre为6 (3+3, 上次函数执行的结果), cur为4
+    + 当cur为4时, 数组中的元素遍历完了, 就直接将第四次的结果, 作为reduce函数的返回值进行返回.
+
+	+ 似乎和forEach比较没有太大的优势呢?
+		+ 通过这个代码你会发现, 你不需要在调用函数前先定义一个变量, 只需要一个变量来接收方法最终的参数即可.
+		+ 但是这就是优势吗? 不是, 优势在于reduce方法有返回值, 而forEach没有.
+		+ 这算什么优势? 如果reduce方法有返回值, 那么reduce方法本身就可以作为参数直接传递给另外一个需要reduce返回值的作为参数的函数. 而forEach中你只能先将每次函数的结果保存在一个变量, 最后再将变量传入到参数中.
+		+ 没错, 这就是最近非常流行的函数式编程. 也是为了几乎每个可以使用函数式编程的语言都有reduce这个方法的原因.
