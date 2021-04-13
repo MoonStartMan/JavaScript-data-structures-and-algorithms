@@ -9,6 +9,7 @@ A repository of JavaScript data structures and algorithms.
 ## 栈
 
 [栈](栈/栈.md)<br />
+[十进制转二进制](栈/十进制转二进制.md)<br />
 
 ## 其它不熟悉知识点
 
