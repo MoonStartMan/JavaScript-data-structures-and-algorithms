@@ -15,6 +15,7 @@ A repository of JavaScript data structures and algorithms.
 
 [队列](队列/队列.md)<br />
 [[面试题-击鼓传花](队列/面试题-击鼓传花.md)<br />
+[优先级队列](队列/优先级队列.md)<br />
 
 ## 其它不熟悉知识点
 
